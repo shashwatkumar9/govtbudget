@@ -2,82 +2,239 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X, Calculator, PieChart, Home } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Menu, X, Calculator, PieChart, Home, TrendingUp, BarChart3, Globe, ChevronDown } from "lucide-react";
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
-  const navigation = [
-    { name: "Home", href: "/", icon: Home },
-    { name: "Tools", href: "/tools", icon: Calculator },
+  const calculators = [
+    { name: "United States", flag: "🇺🇸", href: "/us/calculator/where-taxes-go", code: "US" },
+    { name: "India", flag: "🇮🇳", href: "/india/calculator/where-taxes-go", code: "IN" },
+    { name: "Canada", flag: "🇨🇦", href: "/canada/calculator/where-taxes-go", code: "CA" },
+    { name: "United Kingdom", flag: "🇬🇧", href: "/uk/calculator/where-taxes-go", code: "UK" },
+    { name: "Australia", flag: "🇦🇺", href: "/australia/calculator/where-taxes-go", code: "AU" },
   ];
 
-  const countries = [
-    { name: "USA", flag: "🇺🇸", href: "/us/calculator/where-taxes-go" },
-    { name: "India", flag: "🇮🇳", href: "/india/calculator/where-taxes-go" },
-    { name: "Canada", flag: "🇨🇦", href: "/canada/calculator/where-taxes-go" },
-    { name: "UK", flag: "🇬🇧", href: "/uk/calculator/where-taxes-go" },
-    { name: "Australia", flag: "🇦🇺", href: "/australia/calculator/where-taxes-go" },
+  const budgets = [
+    { name: "US Budget 2024", flag: "🇺🇸", href: "/us/budget/2024", amount: "$6.9T" },
+    { name: "India Budget 2024", flag: "🇮🇳", href: "/india/budget/2024", amount: "₹47.7L Cr" },
+    { name: "Canada Budget 2024", flag: "🇨🇦", href: "/canada/budget/2024", amount: "C$497B" },
+    { name: "UK Budget 2024", flag: "🇬🇧", href: "/uk/budget/2024", amount: "£1.1T" },
+    { name: "Australia Budget 2024", flag: "🇦🇺", href: "/australia/budget/2024", amount: "A$670B" },
+  ];
+
+  const tools = [
+    { name: "Currency Converter", href: "/tools/currency-converter", icon: "💱", desc: "Convert between 5 currencies" },
+    { name: "Inflation Calculator", href: "/tools/inflation-calculator", icon: "📈", desc: "Track purchasing power" },
+    { name: "Compound Interest", href: "/tools/compound-interest", icon: "💰", desc: "Investment growth calculator" },
+    { name: "Loan Calculator", href: "/tools/loan-calculator", icon: "🏦", desc: "Calculate EMI payments" },
+    { name: "Savings Goal", href: "/tools/savings-goal", icon: "🎯", desc: "Plan your savings targets" },
   ];
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50 border-b border-gray-200">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 justify-between items-center">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="flex items-center space-x-2">
-              <PieChart className="h-8 w-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-900">GovtBudget</span>
+            <Link href="/" className="flex items-center space-x-2 group">
+              <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-sm group-hover:shadow-md transition-shadow">
+                <PieChart className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <div className="text-xl font-bold text-gray-900">GovtBudget</div>
+                <div className="text-[10px] text-gray-500 -mt-1">Transparency Platform</div>
+              </div>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex md:items-center md:space-x-8">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors font-medium"
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.name}</span>
-                </Link>
-              );
-            })}
+          <div className="hidden lg:flex lg:items-center lg:space-x-1">
+            <Link
+              href="/"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all"
+            >
+              Home
+            </Link>
 
-            {/* Countries Dropdown */}
-            <div className="relative group">
-              <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 transition-colors font-medium">
-                <span>Countries</span>
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+            {/* Tax Calculators Mega Menu */}
+            <div
+              className="relative"
+              onMouseEnter={() => setActiveDropdown("calculators")}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all flex items-center space-x-1">
+                <Calculator className="h-4 w-4" />
+                <span>Tax Calculators</span>
+                <ChevronDown className="h-3 w-3" />
               </button>
-              <div className="absolute hidden group-hover:block right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
-                {countries.map((country) => (
-                  <Link
-                    key={country.name}
-                    href={country.href}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                  >
-                    <span className="mr-2">{country.flag}</span>
-                    {country.name}
-                  </Link>
-                ))}
-              </div>
+
+              {activeDropdown === "calculators" && (
+                <div className="absolute left-0 mt-1 w-[600px] bg-white rounded-lg shadow-xl border border-gray-200 p-6">
+                  <div className="grid grid-cols-2 gap-6">
+                    <div>
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                        Tax Calculators
+                      </h3>
+                      <div className="space-y-1">
+                        {calculators.map((calc) => (
+                          <Link
+                            key={calc.code}
+                            href={calc.href}
+                            className="block px-3 py-2 rounded-md hover:bg-blue-50 transition-colors group"
+                          >
+                            <div className="flex items-center space-x-3">
+                              <span className="text-2xl">{calc.flag}</span>
+                              <div>
+                                <div className="text-sm font-medium text-gray-900 group-hover:text-blue-600">
+                                  {calc.name}
+                                </div>
+                                <div className="text-xs text-gray-500">
+                                  Where do your taxes go?
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="border-l border-gray-200 pl-6">
+                      <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                        Features
+                      </h3>
+                      <div className="space-y-3">
+                        <div className="flex items-start space-x-2">
+                          <div className="text-blue-600 mt-0.5">✓</div>
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">Real-time Calculations</div>
+                            <div className="text-xs text-gray-500">Instant tax breakdown</div>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-2">
+                          <div className="text-blue-600 mt-0.5">✓</div>
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">Visual Breakdowns</div>
+                            <div className="text-xs text-gray-500">Interactive charts & graphs</div>
+                          </div>
+                        </div>
+                        <div className="flex items-start space-x-2">
+                          <div className="text-blue-600 mt-0.5">✓</div>
+                          <div>
+                            <div className="text-sm font-medium text-gray-900">Privacy First</div>
+                            <div className="text-xs text-gray-500">No data stored or tracked</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Budget Breakdown Mega Menu */}
+            <div
+              className="relative"
+              onMouseEnter={() => setActiveDropdown("budgets")}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all flex items-center space-x-1">
+                <BarChart3 className="h-4 w-4" />
+                <span>Budget Data</span>
+                <ChevronDown className="h-3 w-3" />
+              </button>
+
+              {activeDropdown === "budgets" && (
+                <div className="absolute left-0 mt-1 w-[500px] bg-white rounded-lg shadow-xl border border-gray-200 p-6">
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                    2024 Government Budgets
+                  </h3>
+                  <div className="grid grid-cols-1 gap-2">
+                    {budgets.map((budget) => (
+                      <Link
+                        key={budget.href}
+                        href={budget.href}
+                        className="flex items-center justify-between px-3 py-2.5 rounded-md hover:bg-blue-50 transition-colors group"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <span className="text-2xl">{budget.flag}</span>
+                          <div className="text-sm font-medium text-gray-900 group-hover:text-blue-600">
+                            {budget.name}
+                          </div>
+                        </div>
+                        <div className="text-sm font-semibold text-gray-600 group-hover:text-blue-600">
+                          {budget.amount}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <div className="text-xs text-gray-500">
+                      📊 Interactive visualizations • 📈 Spending categories • 💡 Detailed breakdowns
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Financial Tools Mega Menu */}
+            <div
+              className="relative"
+              onMouseEnter={() => setActiveDropdown("tools")}
+              onMouseLeave={() => setActiveDropdown(null)}
+            >
+              <button className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-all flex items-center space-x-1">
+                <TrendingUp className="h-4 w-4" />
+                <span>Financial Tools</span>
+                <ChevronDown className="h-3 w-3" />
+              </button>
+
+              {activeDropdown === "tools" && (
+                <div className="absolute right-0 mt-1 w-[400px] bg-white rounded-lg shadow-xl border border-gray-200 p-6">
+                  <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                    Free Financial Calculators
+                  </h3>
+                  <div className="space-y-1">
+                    {tools.map((tool) => (
+                      <Link
+                        key={tool.href}
+                        href={tool.href}
+                        className="block px-3 py-2.5 rounded-md hover:bg-blue-50 transition-colors group"
+                      >
+                        <div className="flex items-start space-x-3">
+                          <span className="text-xl mt-0.5">{tool.icon}</span>
+                          <div>
+                            <div className="text-sm font-medium text-gray-900 group-hover:text-blue-600">
+                              {tool.name}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {tool.desc}
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="mt-4 pt-4 border-t border-gray-200">
+                    <Link
+                      href="/tools"
+                      className="text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center space-x-1"
+                    >
+                      <span>View all tools</span>
+                      <span>→</span>
+                    </Link>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex md:hidden">
+          <div className="flex lg:hidden">
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-700 hover:text-blue-600"
+              className="p-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
             >
               {mobileMenuOpen ? (
                 <X className="h-6 w-6" />
@@ -90,34 +247,61 @@ export function Header() {
 
         {/* Mobile menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
+          <div className="lg:hidden border-t border-gray-200 py-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
             <div className="space-y-1">
-              {navigation.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                    onClick={() => setMobileMenuOpen(false)}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span>{item.name}</span>
-                  </Link>
-                );
-              })}
+              <Link
+                href="/"
+                className="block px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                🏠 Home
+              </Link>
             </div>
+
             <div className="mt-4 pt-4 border-t border-gray-200">
-              <p className="px-4 text-sm font-semibold text-gray-500 mb-2">Countries</p>
-              {countries.map((country) => (
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                Tax Calculators
+              </p>
+              {calculators.map((calc) => (
                 <Link
-                  key={country.name}
-                  href={country.href}
-                  className="block px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  key={calc.code}
+                  href={calc.href}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  <span className="mr-2">{country.flag}</span>
-                  {country.name}
+                  {calc.flag} {calc.name}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                Budget Data
+              </p>
+              {budgets.map((budget) => (
+                <Link
+                  key={budget.href}
+                  href={budget.href}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {budget.flag} {budget.name}
+                </Link>
+              ))}
+            </div>
+
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <p className="px-4 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                Financial Tools
+              </p>
+              {tools.map((tool) => (
+                <Link
+                  key={tool.href}
+                  href={tool.href}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md transition-colors"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {tool.icon} {tool.name}
                 </Link>
               ))}
             </div>
