@@ -1,6 +1,5 @@
 import { TaxBreakdownCalculator } from "@/components/tax-breakdown-calculator";
 import { INDIA_BUDGET_2024 } from "@/data/budgets";
-import { calculateIndiaIncomeTax } from "@/data/tax-calculators";
 import { getCountryById } from "@/data/countries";
 
 export const metadata = {
@@ -39,7 +38,6 @@ export default function IndiaTaxCalculatorPage() {
           currencySymbol={country.currencySymbol}
           currencyCode={country.currencyCode}
           budgetData={INDIA_BUDGET_2024}
-          calculateTax={(income) => calculateIndiaIncomeTax(income, "new")}
           showFilingStatus={false}
         />
 

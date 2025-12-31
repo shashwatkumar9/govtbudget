@@ -1,6 +1,5 @@
 import { TaxBreakdownCalculator } from "@/components/tax-breakdown-calculator";
 import { CANADA_BUDGET_2024 } from "@/data/budgets";
-import { calculateCanadaFederalTax } from "@/data/tax-calculators";
 import { getCountryById } from "@/data/countries";
 
 export const metadata = {
@@ -39,7 +38,6 @@ export default function CanadaTaxCalculatorPage() {
           currencySymbol={country.currencySymbol}
           currencyCode={country.currencyCode}
           budgetData={CANADA_BUDGET_2024}
-          calculateTax={calculateCanadaFederalTax}
           showFilingStatus={false}
         />
 

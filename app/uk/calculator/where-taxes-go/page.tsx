@@ -1,6 +1,5 @@
 import { TaxBreakdownCalculator } from "@/components/tax-breakdown-calculator";
 import { UK_BUDGET_2024 } from "@/data/budgets";
-import { calculateUKIncomeTax } from "@/data/tax-calculators";
 import { getCountryById } from "@/data/countries";
 
 export const metadata = {
@@ -39,7 +38,6 @@ export default function UKTaxCalculatorPage() {
           currencySymbol={country.currencySymbol}
           currencyCode={country.currencyCode}
           budgetData={UK_BUDGET_2024}
-          calculateTax={calculateUKIncomeTax}
           showFilingStatus={false}
         />
 

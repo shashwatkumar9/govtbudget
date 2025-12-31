@@ -7,6 +7,13 @@ import { Button } from "@/components/ui/button";
 import { BudgetCategory, BudgetBreakdownItem, FilingStatus } from "@/types";
 import { formatCurrency, formatDaily, formatMonthly } from "@/lib/utils";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import {
+  calculateUSFederalTax,
+  calculateIndiaIncomeTax,
+  calculateCanadaFederalTax,
+  calculateUKIncomeTax,
+  calculateAustraliaIncomeTax,
+} from "@/data/tax-calculators";
 
 interface TaxBreakdownCalculatorProps {
   countryId: string;
@@ -14,7 +21,6 @@ interface TaxBreakdownCalculatorProps {
   currencySymbol: string;
   currencyCode: string;
   budgetData: BudgetCategory[];
-  calculateTax: (income: number, ...args: any[]) => number;
   showFilingStatus?: boolean;
   showStateSelector?: boolean;
 }
@@ -25,7 +31,6 @@ export function TaxBreakdownCalculator({
   currencySymbol,
   currencyCode,
   budgetData,
-  calculateTax,
   showFilingStatus = false,
   showStateSelector = false,
 }: TaxBreakdownCalculatorProps) {
@@ -41,11 +46,29 @@ export function TaxBreakdownCalculator({
       return;
     }
 
+    // Calculate tax based on country
     let tax = 0;
-    if (showFilingStatus) {
-      tax = calculateTax(incomeValue, filingStatus);
-    } else {
-      tax = calculateTax(incomeValue);
+    switch (countryId) {
+      case "us":
+        tax = showFilingStatus
+          ? calculateUSFederalTax(incomeValue, filingStatus)
+          : calculateUSFederalTax(incomeValue, "single");
+        break;
+      case "india":
+        tax = calculateIndiaIncomeTax(incomeValue, "new");
+        break;
+      case "canada":
+        tax = calculateCanadaFederalTax(incomeValue);
+        break;
+      case "uk":
+        tax = calculateUKIncomeTax(incomeValue);
+        break;
+      case "australia":
+        tax = calculateAustraliaIncomeTax(incomeValue);
+        break;
+      default:
+        alert(`Tax calculator not found for country: ${countryId}`);
+        return;
     }
 
     setTotalTax(tax);

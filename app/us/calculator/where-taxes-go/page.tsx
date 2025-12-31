@@ -1,6 +1,5 @@
 import { TaxBreakdownCalculator } from "@/components/tax-breakdown-calculator";
 import { US_BUDGET_2024 } from "@/data/budgets";
-import { calculateUSFederalTax } from "@/data/tax-calculators";
 import { getCountryById } from "@/data/countries";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -66,7 +65,6 @@ export default function USATaxCalculatorPage() {
           currencySymbol={country.currencySymbol}
           currencyCode={country.currencyCode}
           budgetData={US_BUDGET_2024}
-          calculateTax={calculateUSFederalTax}
           showFilingStatus={true}
         />
 

@@ -1,6 +1,5 @@
 import { TaxBreakdownCalculator } from "@/components/tax-breakdown-calculator";
 import { AUSTRALIA_BUDGET_2024 } from "@/data/budgets";
-import { calculateAustraliaIncomeTax } from "@/data/tax-calculators";
 import { getCountryById } from "@/data/countries";
 
 export const metadata = {
@@ -39,7 +38,6 @@ export default function AustraliaTaxCalculatorPage() {
           currencySymbol={country.currencySymbol}
           currencyCode={country.currencyCode}
           budgetData={AUSTRALIA_BUDGET_2024}
-          calculateTax={calculateAustraliaIncomeTax}
           showFilingStatus={false}
         />
 
