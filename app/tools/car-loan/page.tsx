@@ -273,7 +273,7 @@ export default function CarLoanCalculator() {
                           <CartesianGrid strokeDasharray="3 3" />
                           <XAxis dataKey="year" label={{ value: 'Years', position: 'insideBottom', offset: -5 }} />
                           <YAxis label={{ value: 'Amount ($)', angle: -90, position: 'insideLeft' }} />
-                          <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+                          <Tooltip formatter={(value) => `$${Number(value || 0).toLocaleString()}`} />
                           <Legend />
                           <Line type="monotone" dataKey="balance" stroke="#ef4444" name="Balance Remaining" strokeWidth={2} />
                           <Line type="monotone" dataKey="paid" stroke="#22c55e" name="Amount Paid" strokeWidth={2} />

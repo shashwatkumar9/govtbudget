@@ -2,6 +2,19 @@ import Link from "next/link";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
+type Tool = {
+  name: string;
+  description: string;
+  href: string;
+  icon: string;
+  badge?: string;
+};
+
+type ToolCategory = {
+  category: string;
+  tools: Tool[];
+};
+
 export const metadata = {
   title: "20+ Free Financial Calculators & Tools | GovtBudget",
   description:
@@ -21,7 +34,7 @@ export const metadata = {
   ],
 };
 
-const TOOL_CATEGORIES = [
+const TOOL_CATEGORIES: ToolCategory[] = [
   {
     category: "🏆 Most Popular",
     tools: [

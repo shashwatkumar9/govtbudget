@@ -173,7 +173,7 @@ export function TaxBreakdownCalculator({
                       <XAxis type="number" />
                       <YAxis dataKey="category" type="category" width={150} fontSize={12} />
                       <Tooltip
-                        formatter={(value: number) => formatCurrency(value, currencyCode)}
+                        formatter={(value) => formatCurrency(Number(value || 0), currencyCode)}
                       />
                       <Bar dataKey="amount" radius={[0, 4, 4, 0]}>
                         {breakdown.map((entry, index) => (
