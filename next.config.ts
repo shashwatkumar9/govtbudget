@@ -1,11 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  experimental: {
-    turbopack: {
-      root: __dirname,
-    },
-  },
+  // Production-ready configuration
 };
 
 export default nextConfig;
